@@ -1,0 +1,7 @@
+**/.gradle/
+**/build/
+**/out/
+
+Server/logs/
+Server/save_files/
+
