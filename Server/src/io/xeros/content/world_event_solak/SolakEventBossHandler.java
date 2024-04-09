@@ -27,14 +27,14 @@ import java.util.concurrent.TimeUnit;
  * @author C.T, for koranse.
  */
 public class SolakEventBossHandler {
-	
+
 	private static int SOLAK_KEY = 22428;
-	
+
 	public static boolean activated = false;
-	
+
 	public enum SolakEventBosses {
 
-		SOLAK(3407, "Solak", 3000, 50, 650, 450);
+		SOLAK(3407, "Solak", 7000, 3000, 50, 650, 450);
 
 
 
@@ -42,6 +42,8 @@ public class SolakEventBossHandler {
 		private int npcId;
 
 		private  String bossName;
+
+		private int level;
 
 		private  int hp;
 
@@ -51,9 +53,10 @@ public class SolakEventBossHandler {
 
 		private int defence;
 
-		SolakEventBosses(final int npcId, final String bossName, final int hp, final int maxHit, final int attack, final int defence) {
+		SolakEventBosses(final int npcId, final String bossName, final int level, final int hp, final int maxHit, final int attack, final int defence) {
 			this.npcId = npcId;
 			this.bossName = bossName;
+			this.level = level;
 			this.hp = hp;
 			this.maxHit = maxHit;
 			this.attack = attack;
@@ -68,6 +71,8 @@ public class SolakEventBossHandler {
 		public int getHp() {
 			return hp;
 		}
+
+		public int getLevel() { return level;}
 
 		public int getMaxHit() {
 			return maxHit;
@@ -94,20 +99,20 @@ public class SolakEventBossHandler {
 		}
 	}
 
-	
+
 	private static SolakEventBossSpawns currentLocation;
 
 
 	private static SolakEventBosses activeBoss;
-	
-	
+
+
 	private static NPC activeNPC;
-	
-	
+
+
 
 	private static CycleEvent cycleEvent;
-	
-	
+
+
 
 	private static CycleEventContainer cycleEventContainer;
 	private static boolean didSend;
@@ -123,7 +128,7 @@ public class SolakEventBossHandler {
 
 			@Override
 			public void execute(CycleEventContainer container) {
-				
+
 				if(getActiveBoss() != null) {
 					destroyBoss();
 					container.setTick(Misc.toCycles(25, TimeUnit.MINUTES));
@@ -135,16 +140,16 @@ public class SolakEventBossHandler {
 				spawnBoss();
 				Configuration.SOLAK_EVENT_TIMER = SolakEventBossHandler.generateTime();
 				activated = true;
-			    }
+			}
 
-		    @Override
-		    public void onStopped() {
-				
-			   }
+			@Override
+			public void onStopped() {
+
+			}
 
 		};
 		setCycleEventContainer(CycleEventHandler.getSingleton().addEvent(SolakEventBossHandler.class, cycleEvent, generateTime()));
-	}    
+	}
 
 	public static void destroyBoss() {
 		if(getActiveBoss() == null)
@@ -175,23 +180,23 @@ public class SolakEventBossHandler {
 		PlayerHandler.nonNullStream().filter(p -> Boundary.isIn(p, Boundary.SOLAK_AREA))
 				.forEach(p -> {
 					if(!givenToIP.contains(p.connectedFrom)) {
-					if (p.getSolakDamageCounter() >= 150) {
-						p.sendMessage("@red@You receive an solak event key for defeating solak.");
-						p.getItems().addItemUnderAnyCircumstance(SOLAK_KEY, 1);
-						givenToIP.add(p.connectedFrom);
-						if (p.hasFollower && (p.petSummonId == 30123)) {
-							if (Misc.random(100) < 25) {
-								p.getItems().addItemUnderAnyCircumstance(SOLAK_KEY, 2);
-								p.sendMessage("Your pet provided 2 extra keys!");
+						if (p.getSolakDamageCounter() >= 150) {
+							p.sendMessage("@red@You receive an solak event key for defeating solak.");
+							p.getItems().addItemUnderAnyCircumstance(SOLAK_KEY, 1);
+							givenToIP.add(p.connectedFrom);
+							if (p.hasFollower && (p.petSummonId == 30123)) {
+								if (Misc.random(100) < 25) {
+									p.getItems().addItemUnderAnyCircumstance(SOLAK_KEY, 2);
+									p.sendMessage("Your pet provided 2 extra keys!");
+								}
 							}
+							if ((Configuration.DOUBLE_DROPS_TIMER > 0 || Configuration.DOUBLE_DROPS)) {
+								p.getItems().addItemUnderAnyCircumstance(SOLAK_KEY, 2);
+								p.sendMessage("@gre@[WOGW] Double drops is activated and you received 2 extra keys!");
+							}
+						} else if (p.getSolakDamageCounter() < 150) {
+							p.sendMessage("@red@You must deal @red@150+</col> damage to receive a key!");
 						}
-						if ((Configuration.DOUBLE_DROPS_TIMER > 0 || Configuration.DOUBLE_DROPS)) {
-							p.getItems().addItemUnderAnyCircumstance(SOLAK_KEY, 2);
-							p.sendMessage("@gre@[WOGW] Double drops is activated and you received 2 extra keys!");
-						}
-					} else if (p.getSolakDamageCounter() < 150) {
-						p.sendMessage("@red@You must deal @red@150+</col> damage to receive a key!");
-					}
 					} else {
 						p.sendMessage("You can only receive 1 drop per @red@ IP ADDRESS!");
 					}
@@ -204,7 +209,7 @@ public class SolakEventBossHandler {
 	public static int generateTime(){
 		return Misc.toCycles(25, TimeUnit.MINUTES);
 	}
-	
+
 	public static CycleEventContainer getCycleEventContainer() {
 		return cycleEventContainer;
 	}
@@ -232,7 +237,7 @@ public class SolakEventBossHandler {
 	public static void setDidSend(boolean didSend) {
 		SolakEventBossHandler.didSend = didSend;
 	}
-	
+
 	private static String name;
 	public static String getName() {
 		return name;
@@ -258,6 +263,6 @@ public class SolakEventBossHandler {
 		SolakEventBossHandler.activeBoss = activeBoss;
 	}
 
-	
+
 
 }

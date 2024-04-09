@@ -286,7 +286,7 @@ public final class NpcDefinition {
 
 		if (i == 3407) {
 			entityDef.name = "Solak";
-			entityDef.combatLevel = 546;
+			entityDef.combatLevel = 7000;
 			entityDef.models = new int[] { 50204 };
 			entityDef.standAnim = 5893;
 			entityDef.walkAnim = 5892;
@@ -294,7 +294,7 @@ public final class NpcDefinition {
 			entityDef.actions = new String[5];
 			entityDef.actions = new String[] { null, "Attack", null, null, null };;
 			entityDef.getDegreesToTurn = 64;
-			entityDef.size = 3;
+			entityDef.size = 5;
 			entityDef.anInt86 = 180;
 			entityDef.anInt91 = 180;
 

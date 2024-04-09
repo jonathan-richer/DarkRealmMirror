@@ -9,7 +9,7 @@ import io.xeros.util.Misc;
  */
 
 public enum SolakEventBossSpawns {
-		secretlocation(Boundary.SOLAK_AREA, 1718, 3882, "in an secret location"),
+		secretlocation(Boundary.SOLAK_AREA, 2146, 3681, "In the Lost Grove"),
 
 		;
 	private SolakEventBossSpawns(Boundary boundary, int x, int y, String locationName) {

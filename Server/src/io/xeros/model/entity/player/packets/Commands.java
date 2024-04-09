@@ -1141,7 +1141,7 @@ public class Commands implements PacketType {
                     //c.setTeleportToX(1704);
                    // c.setTeleportToY(3881);
                    // c.heightLevel = 0;
-                    c.getPA().startTeleport(1704, 3881, 0, "MODERN", false);
+                    c.getPA().startTeleport(2118, 3683, 0, "MODERN", false);
                     return;
                 }
                 c.sendMessage("@red@There is no solak event currently active.");
