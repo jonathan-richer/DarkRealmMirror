@@ -4024,6 +4024,7 @@ public class Client extends RSApplet {
 
 	public static void main(String args[]) {
 		System.out.println("Launching " + Configuration.CLIENT_TITLE + "..");
+		JVMVersionChecker.checkVersion();
 		getClient(false, args);
 	}
 
@@ -4048,7 +4049,7 @@ public class Client extends RSApplet {
 		root.setLevel(level);
 	}
 
-	public static Client getClient(boolean runelite, String...args) {
+	public static Client getClient(boolean runelite, String ...args) {
 		try {
 //			try {
 //				ClientDiscordRPC.initialize();
